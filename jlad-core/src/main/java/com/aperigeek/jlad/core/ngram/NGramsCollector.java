@@ -35,21 +35,8 @@ public class NGramsCollector {
     }
 
     public void collect(String word) {
-        int i = 0;
-        while (i < word.length() - 3) {
-            add(word.substring(i, i + 2));
-            add(word.substring(i, i + 3));
-            add(word.substring(i, i + 4));
-            i++;
-        }
-        while (i < word.length() - 2) {
-            add(word.substring(i, i + 2));
-            add(word.substring(i, i + 3));
-            i++;
-        }
-        while (i < word.length() - 1) {
-            add(word.substring(i, i + 2));
-            i++;
+        for (String ngram : NGramsUtils.ngramify(word)) {
+            add(ngram);
         }
     }
 
