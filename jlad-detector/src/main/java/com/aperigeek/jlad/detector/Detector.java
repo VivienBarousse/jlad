@@ -18,6 +18,7 @@ import com.aperigeek.jlad.core.token.WordTokenizer;
 import com.aperigeek.jlad.detector.ngrams.Language;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public class Detector {
     
-    private List<Language> languages;
+    private List<Language> languages = new ArrayList<Language>();
 
     public Detector() {
     }
