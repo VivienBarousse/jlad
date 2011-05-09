@@ -41,21 +41,23 @@ public class Detector {
     public String detect(String text) {
         try {
             double[] probabilities = new double[languages.size()];
-            Arrays.fill(probabilities, 1);
+            Arrays.fill(probabilities, 10000);
 
             WordTokenizer tokenizer = new WordTokenizer(new StringReader(text));
             String word;
             while ((word = tokenizer.nextWord()) != null) {
                 String[] ngrams = NGramsUtils.ngramify(word);
                 for (String ngram : ngrams) {
-                    int ngramCount = 0;
+                    double ngramCount = 0;
                     for (Language language : languages) {
                         ngramCount += language.getNgrams().getNGram(ngram);
                     }
                     for (int i = 0; i < languages.size(); i++) {
-                        probabilities[i] *=
-                                languages.get(i).getNgrams().getNGram(ngram) /
-                                ngramCount;
+                        if (languages.get(i).getNgrams().getNGram(ngram) != 0) {
+                            probabilities[i] *=
+                                    languages.get(i).getNgrams().getNGram(ngram) /
+                                    ngramCount;
+                        }
                     }
                 }
             }
