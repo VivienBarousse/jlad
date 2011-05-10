@@ -41,7 +41,8 @@ public class Detector {
     public String detect(String text) {
         try {
             double[] probabilities = new double[languages.size()];
-            Arrays.fill(probabilities, 10000);
+            Arrays.fill(probabilities, 1d);
+            long[] pe = new long[probabilities.length];
 
             WordTokenizer tokenizer = new WordTokenizer(new StringReader(text));
             String word;
@@ -54,9 +55,13 @@ public class Detector {
                     }
                     for (int i = 0; i < languages.size(); i++) {
                         if (languages.get(i).getNgrams().getNGram(ngram) != 0) {
-                            probabilities[i] *=
+                            probabilities[i] *= 
                                     languages.get(i).getNgrams().getNGram(ngram) /
                                     ngramCount;
+                            while (probabilities[i] < 0.1d) {
+                                probabilities[i] *= 10;
+                                pe[i] -= 1;
+                            }
                         }
                     }
                 }
@@ -65,7 +70,8 @@ public class Detector {
             double maxProb = probabilities[0];
             int maxProbIdx = 0;
             for (int i = 1; i < probabilities.length; i++) {
-                if (probabilities[i] > maxProb) {
+                if (pe[i] > pe[maxProbIdx] ||
+                        (pe[i] == pe[maxProbIdx] && probabilities[i] > maxProb)) {
                     maxProb = probabilities[i];
                     maxProbIdx = i;
                 }
