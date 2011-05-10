@@ -41,7 +41,6 @@ public class Main {
             ex.printStackTrace(System.err);
         }
         trainer.dump(System.out);
-        System.out.close();
     }
     
 }

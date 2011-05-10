@@ -78,6 +78,7 @@ public class WikipediaTrainer {
             out.print(",");
             out.println(ngram.getValue());
         }
+        out.flush();
     }
     
     private void collectText(String text) throws IOException {
