@@ -22,11 +22,11 @@ import java.util.Map;
  */
 public class NGramsContainer {
     
-    private int count;
+    private long count;
     
-    private Map<String, Integer> ngrams = new HashMap<String, Integer>();
+    private Map<String, Long> ngrams = new HashMap<String, Long>();
     
-    public void put(String ngram, int count) {
+    public void put(String ngram, long count) {
         ngrams.put(ngram, count);
         this.count += count;
     }
