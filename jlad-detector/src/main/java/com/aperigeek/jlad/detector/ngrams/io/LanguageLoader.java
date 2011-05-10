@@ -15,6 +15,8 @@ package com.aperigeek.jlad.detector.ngrams.io;
 
 import com.aperigeek.jlad.detector.ngrams.Language;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.Reader;
 import java.util.regex.Matcher;
@@ -28,17 +30,18 @@ public class LanguageLoader {
     
     private static final Pattern csvPattern = Pattern.compile("^([^,]{2,4}),([0-9]+)$");
     
-    private Reader in;
+    private InputStream in;
     
     private Language loaded;
 
-    public LanguageLoader(String languageCode, Reader in) {
+    public LanguageLoader(String languageCode, InputStream in) {
         this.in = in;
         loaded = new Language(languageCode);
     }
     
     public void load() throws IOException {
-        LineNumberReader reader = new LineNumberReader(in);
+        Reader inr = new InputStreamReader(in, "UTF-8");
+        LineNumberReader reader = new LineNumberReader(inr);
         String readed;
         while ((readed = reader.readLine()) != null) {
             // Skip eventual empty lines
