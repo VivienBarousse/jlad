@@ -1,0 +1,8 @@
+Java Language Detection library.
+
+This library uses a Naive Bayes classifier on n-grams of a text, with
+n ranging from 2 to 4.
+
+This algorithms first needs to extract the n-grams repartition on a set
+of known documents (training phase) and then can reuse these results
+to detect the language of a unknown documents (detection phase).
