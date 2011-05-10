@@ -33,7 +33,7 @@ public class NGramsContainer {
     
     public double getNGram(String ngram) {
         if (!ngrams.containsKey(ngram)) {
-            return 0.0d;
+            return 1.0d / count;
         }
         return ngrams.get(ngram).doubleValue() / count;
     }

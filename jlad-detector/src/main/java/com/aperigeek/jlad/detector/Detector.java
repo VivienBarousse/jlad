@@ -54,14 +54,12 @@ public class Detector {
                         ngramCount += language.getNgrams().getNGram(ngram);
                     }
                     for (int i = 0; i < languages.size(); i++) {
-                        if (languages.get(i).getNgrams().getNGram(ngram) != 0) {
-                            probabilities[i] *= 
-                                    languages.get(i).getNgrams().getNGram(ngram) /
-                                    ngramCount;
-                            while (probabilities[i] < 0.1d) {
-                                probabilities[i] *= 10;
-                                pe[i] -= 1;
-                            }
+                        probabilities[i] *= 
+                                languages.get(i).getNgrams().getNGram(ngram) /
+                                ngramCount;
+                        while (probabilities[i] < 0.1d) {
+                            probabilities[i] *= 10;
+                            pe[i] -= 1;
                         }
                     }
                 }
