@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
@@ -67,15 +68,15 @@ public class WikipediaTrainer {
         }
     }
     
-    public void dump(OutputStream out) {
-        dump(new OutputStreamWriter(out));
+    public void dump(OutputStream out) throws IOException {
+        dump(new OutputStreamWriter(out, "UTF-8"));
     }
     
-    public void dump(Writer out) {
+    private void dump(Writer out) throws IOException {
         dump(new PrintWriter(out));
     }
     
-    public void dump(PrintWriter out) {
+    private void dump(PrintWriter out) {
         Map<String, Integer> ngrams = collector.getNgramsCount();
         for (Map.Entry<String, Integer> ngram : ngrams.entrySet()) {
             out.print(ngram.getKey());

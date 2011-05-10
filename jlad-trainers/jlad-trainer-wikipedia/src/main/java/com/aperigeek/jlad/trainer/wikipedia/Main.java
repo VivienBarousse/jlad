@@ -14,6 +14,8 @@
 package com.aperigeek.jlad.trainer.wikipedia;
 
 import com.aperigeek.jlad.trainer.TrainerException;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Main class responsible for running the Wikipedia trainer.
@@ -35,12 +37,14 @@ public class Main {
         WikipediaTrainer trainer = new WikipediaTrainer(System.in);
         try {
             trainer.train();
+            trainer.dump((OutputStream) System.out);
         } catch (TrainerException ex) {
-            System.err.println("Unexpected error while training.");
-            System.err.println("Following are the debug informations.");
+            System.err.println("Unexpected error while training.");;
+            ex.printStackTrace(System.err);
+        } catch (IOException ex) {
+            System.out.println("Error while writing results.");
             ex.printStackTrace(System.err);
         }
-        trainer.dump(System.out);
     }
     
 }
