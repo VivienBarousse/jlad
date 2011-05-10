@@ -53,7 +53,7 @@ public class WikipediaTrainer {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
-            parser.parse(in, new WikipediaTextHandler(), null);
+            parser.parse(in, new WikipediaTextHandler());
         } catch (IOException ex) {
             throw new TrainerException("Error reading database file", ex);
         } catch (ParserConfigurationException ex) {
