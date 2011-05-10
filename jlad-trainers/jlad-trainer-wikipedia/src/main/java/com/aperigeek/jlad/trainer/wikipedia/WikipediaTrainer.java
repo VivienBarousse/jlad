@@ -28,6 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.DefaultHandler2;
 
@@ -53,7 +54,10 @@ public class WikipediaTrainer {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
-            parser.parse(in, new WikipediaTextHandler());
+            InputSource source = new InputSource();
+            source.setByteStream(in);
+            source.setEncoding("UTF-8"); // All Wikipedia dumps are UTF-8
+            parser.parse(source, new WikipediaTextHandler());
         } catch (IOException ex) {
             throw new TrainerException("Error reading database file", ex);
         } catch (ParserConfigurationException ex) {
