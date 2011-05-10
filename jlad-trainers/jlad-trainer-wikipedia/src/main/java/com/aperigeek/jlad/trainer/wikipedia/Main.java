@@ -39,7 +39,7 @@ public class Main {
             trainer.train();
             trainer.dump((OutputStream) System.out);
         } catch (TrainerException ex) {
-            System.err.println("Unexpected error while training.");;
+            System.err.println("Unexpected error while training.");
             ex.printStackTrace(System.err);
         } catch (IOException ex) {
             System.out.println("Error while writing results.");
