@@ -126,7 +126,7 @@ public class WikipediaTrainer {
                 if (collect) {
                     collectText(new String(ch, start, length));
                     count++;
-                    if (count >= limit) {
+                    if (limit > 0 && count >= limit) {
                         throw new PrematureEndException("Premature end");
                     }
                 }
