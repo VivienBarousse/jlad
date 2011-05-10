@@ -1,0 +1,9 @@
+The present files have been extracted from the Wikipedia database
+dumps for each language provided. For each database dump, the first
+1000000 articles have been considered during the n-grams extraction.
+
+Even if the results obtained with them are most of the time correct,
+the present files aren't 100% accurate and are provided on an "as is"
+basis, without any warranty of any kind. If you plan to run this software
+in a mission-critical environment, you should consider providing your own
+n-grams databases.
