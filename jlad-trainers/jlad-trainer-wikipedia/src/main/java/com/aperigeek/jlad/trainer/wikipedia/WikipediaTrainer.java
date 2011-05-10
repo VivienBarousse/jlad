@@ -15,6 +15,7 @@ package com.aperigeek.jlad.trainer.wikipedia;
 
 import com.aperigeek.jlad.core.ngram.NGramsCollector;
 import com.aperigeek.jlad.core.token.WordTokenizer;
+import com.aperigeek.jlad.trainer.PrematureEndException;
 import com.aperigeek.jlad.trainer.TrainerException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +23,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,6 +43,7 @@ import org.xml.sax.ext.DefaultHandler2;
  */
 public class WikipediaTrainer {
 
+    private int limit;
     private NGramsCollector collector;
     private InputStream in;
 
@@ -59,6 +60,8 @@ public class WikipediaTrainer {
             source.setByteStream(in);
             source.setEncoding("UTF-8"); // All Wikipedia dumps are UTF-8
             parser.parse(source, new WikipediaTextHandler());
+        } catch (PrematureEndException ex) {
+            // Do nothing, we're finished earlier than expected!
         } catch (IOException ex) {
             throw new TrainerException("Error reading database file", ex);
         } catch (ParserConfigurationException ex) {
@@ -95,9 +98,19 @@ public class WikipediaTrainer {
             collector.collect(word.toLowerCase());
         }
     }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
     
     private class WikipediaTextHandler extends DefaultHandler2 {
 
+        private int count;
+        
         private boolean collect;
 
         @Override
@@ -112,6 +125,10 @@ public class WikipediaTrainer {
             try {
                 if (collect) {
                     collectText(new String(ch, start, length));
+                    count++;
+                    if (count >= limit) {
+                        throw new PrematureEndException("Premature end");
+                    }
                 }
             } catch (IOException ex) {
                 throw new SAXException(ex);
