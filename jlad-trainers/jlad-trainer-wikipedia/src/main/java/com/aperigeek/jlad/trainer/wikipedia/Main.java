@@ -17,8 +17,6 @@ import com.aperigeek.jlad.trainer.TrainerException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Main class responsible for running the Wikipedia trainer.
