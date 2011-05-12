@@ -16,6 +16,9 @@ package com.aperigeek.jlad.trainer.wikipedia;
 import com.aperigeek.jlad.trainer.TrainerException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Main class responsible for running the Wikipedia trainer.
@@ -34,8 +37,17 @@ public class Main {
      * @param args Command line arguments
      */
     public static void main(String[] args) {
+        Properties commandArgs;
+        try {
+            commandArgs = parseArguments(args);
+        } catch (CommandLineArgsParseException ex) {
+            System.err.println(ex.getMessage());
+            return;
+        }
+        
         WikipediaTrainer trainer = new WikipediaTrainer(System.in);
         try {
+            trainer.setLimit(Integer.parseInt(commandArgs.getProperty("-n", "0")));
             trainer.train();
             trainer.dump((OutputStream) System.out);
         } catch (TrainerException ex) {
@@ -44,6 +56,52 @@ public class Main {
         } catch (IOException ex) {
             System.out.println("Error while writing results.");
             ex.printStackTrace(System.err);
+        }
+    }
+    
+    private static Properties parseArguments(String... args) throws CommandLineArgsParseException {
+        Properties p = new Properties();
+        
+        int i = 0;
+        try {
+            while (i < args.length) {
+                if (args[i].equals("-n")) {
+                    i++;
+                    // Checks integer validity
+                    int n = Integer.parseInt(args[i]);
+                    p.put("-n", Integer.toString(n));
+                } else {
+                    throw new CommandLineArgsParseException("Unknown option " + args[i]);
+                }
+            }
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            throw new CommandLineArgsParseException(
+                    "Missing parameter after" + args[i - 1], 
+                    ex);
+        } catch (NumberFormatException ex) {
+            throw new CommandLineArgsParseException(
+                    "Invalid number for option " + args[i - 1],
+                    ex);
+        }
+        
+        return p;
+    }
+
+    private static class CommandLineArgsParseException extends Exception {
+
+        public CommandLineArgsParseException(Throwable cause) {
+            super(cause);
+        }
+
+        public CommandLineArgsParseException(String message, Throwable cause) {
+            super(message, cause);
+        }
+
+        public CommandLineArgsParseException(String message) {
+            super(message);
+        }
+
+        public CommandLineArgsParseException() {
         }
     }
     
