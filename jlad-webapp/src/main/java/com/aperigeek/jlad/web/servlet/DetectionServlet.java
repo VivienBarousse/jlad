@@ -36,7 +36,9 @@ public class DetectionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        request.setCharacterEncoding("UTF-8");
         String text = request.getParameter("text");
+        System.out.println(text);
         String lang = service.detectLanguage(text);
         request.setAttribute("lang", lang);
         
