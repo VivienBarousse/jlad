@@ -18,5 +18,6 @@
     <module>jlad-core</module>
     <module>jlad-trainers</module>
     <module>jlad-detector</module>
+    <module>jlad-webapp</module>
   </modules>
 </project>
