@@ -16,8 +16,10 @@ package com.aperigeek.jlad.web.rest;
 import com.aperigeek.jlad.web.detector.DetectorService;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 /**
  * REST endpoint for the detection service
@@ -32,6 +34,8 @@ public class DetectorRestService {
     private DetectorService detector;
     
     @POST
+    @Consumes("text/plain")
+    @Produces("text/plain")
     public String detect(String text) {
         return detector.detectLanguage(text);
     }
