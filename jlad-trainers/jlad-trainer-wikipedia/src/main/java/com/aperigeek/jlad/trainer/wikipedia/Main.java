@@ -68,6 +68,7 @@ public class Main {
                     // Checks integer validity
                     int n = Integer.parseInt(args[i]);
                     p.put("-n", Integer.toString(n));
+                    i++;
                 } else {
                     throw new CommandLineArgsParseException("Unknown option " + args[i]);
                 }
